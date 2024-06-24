@@ -1,4 +1,4 @@
-﻿import os
+import os
 import subprocess
 import streamlit as st
 import threading
@@ -59,12 +59,34 @@ def start_thread():
 start_thread()
 
 st.title("抖音美女欣赏")
-video_paths = ["./meinv.mp4", "./mv2.mp4"]
+import streamlit as st
 
-# Display each video if it exists
-for video_path in video_paths:
-    if os.path.exists(video_path):
-        st.video(video_path)
+# Define the paths of the videos in sequential order
+video_paths = ["./meinv.mp4", "./mv1.mp4", "./mv2.mp4"]
+
+# Initialize the index to track the current video
+current_index = 0
+
+# Function to display the video
+def display_video(video_path):
+    st.video(video_path)
+
+# Define the layout using Streamlit columns
+col1, col2, col3 = st.columns([1, 5, 1])
+
+# Display the current video based on the current_index
+col2.write("点击下一个按钮播放下一个视频")
+
+display_video(video_paths[current_index])
+
+# Button to play the next video
+if col2.button("下一个"):
+    # Move to the next video in the list
+    current_index = (current_index + 1) % len(video_paths)
+    # Clear previous video and display the next one
+    col2.empty()
+    display_video(video_paths[current_index])
+
 image_path = "./mv.jpg"
 if os.path.exists(image_path):
     st.image(image_path, caption='林熳', use_column_width=True)
